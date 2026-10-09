@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Link Page</title>
+  <meta name="description" content="Personal link page — cepat, estetik, warna pastel ungu-pink." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: linear-gradient(180deg,#fff 0%, #fff 40%, #f7eef9 100%);
+      --card: rgba(255,255,255,0.85);
+      --accent1: #d6bfff; /* pastel ungu */
+      --accent2: #ffc1e3; /* pastel pink */
+      --muted:#6b6b7a;
+      --glass: rgba(255,255,255,0.6);
+      --radius:18px;
+      --maxw:420px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:28px; color:#252032}
+    .card{width:100%; max-width:var(--maxw); background:var(--card); border-radius:24px; padding:28px; box-shadow:0 12px 30px rgba(15,11,30,0.12); text-align:center}
+    .avatar{width:108px; height:108px; margin:0 auto; border-radius:50%; overflow:hidden; box-shadow:0 6px 18px rgba(16,12,36,0.08); border:6px solid transparent; background:linear-gradient(135deg,var(--accent1),var(--accent2));}
+    .avatar img{width:100%; height:100%; object-fit:cover; display:block;}
+    h1{margin:14px 0 6px 0; font-size:20px}
+    p.bio{margin:0 0 18px 0; color:var(--muted); font-size:14px}
+
+    .links{display:flex; flex-direction:column; gap:12px}
+    .link-btn{display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; text-decoration:none; color:inherit; font-weight:600; box-shadow:0 6px 14px rgba(12,8,30,0.05); border:1px solid rgba(0,0,0,0.02)}
+    .link-icon{width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700}
+
+    .ig{background:linear-gradient(90deg,#ff9ccf,#d96bff); color:white}
+    .tt{background:linear-gradient(90deg,#000 0%, #111 60%); color:white}
+    .web{background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#29133a}
+
+    .small{font-size:13px; color:var(--muted)}
+
+    .action-row{display:flex; gap:8px; justify-content:center; margin-top:14px}
+    .chip{padding:8px 10px; border-radius:999px; background:transparent; border:1px solid rgba(0,0,0,0.04); font-size:13px}
+
+    .share{margin-top:14px}
+
+    footer{margin-top:18px; font-size:12px; color:var(--muted)}
+
+    @media (max-width:480px){ .card{padding:20px} }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="avatar" id="avatar">
+      <img src="fotoAnin3.jpg" alt="avatar">
+    </div>
+    <h1 id="name">Anindyatul Ilmi Syahraeni</h1>
+    <p class="bio" id="bio">✨about me?? - follow my account!!✨</p>
+
+    <div class="links" id="links">
+      <a class="link-btn ig" href="https://instagram.com/aniindyaa_20" target="_blank" rel="noopener noreferrer">
+        <div class="link-icon">IG</div>
+        <div style="text-align:left"><div>Instagram</div><div class="small">@aniindyaa_20</div></div>
+      </a>
+
+      <a class="link-btn tt" href="https://www.tiktok.com/@aniinndya_20" target="_blank" rel="noopener noreferrer">
+        <div class="link-icon">TT</div>
+        <div style="text-align:left"><div>TikTok</div><div class="small">@aniinndya_20</div></div>
+      </a>
+
+      <a class="link-btn web" href="https://wa.me/6281779210328" target="_blank" rel="noopener noreferrer">
+        <div class="link-icon">WA</div>
+        <div style="text-align:left"><div>WhatsApp</div><div class="small">0817-7921-0328</div></div>
+      </a>
+    </div>
+
+    <div class="action-row">
+      <button class="chip" id="copyBtn">Salin Link</button>
+      <button class="chip" id="vcardBtn">Simpan Kontak</button>
+      <button class="chip" id="themeBtn">Ubah Tema</button>
+    </div>
+
+    <div class="share small" id="shareMsg"></div>
+
+    <footer>❤️sekian • Personal Link Page • terimakasih❤️</footer>
+  </main>
+
+  <script>
+    const copyBtn = document.getElementById('copyBtn');
+    const vcardBtn = document.getElementById('vcardBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    const shareMsg = document.getElementById('shareMsg');
+
+    copyBtn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(location.href);
+        shareMsg.textContent = 'Tautan tersalin ke clipboard!';
+      }catch(e){
+        shareMsg.textContent = 'Tidak dapat menyalin otomatis — silakan salin manual.';
+      }
+      setTimeout(()=>shareMsg.textContent='',2200);
+    });
+
+    vcardBtn.addEventListener('click', ()=>{
+      const name = document.getElementById('name').textContent || 'Anindyatul Ilmi Syahraeni';
+      const phone = '+6281779210328';
+      const email = 'email@domain.com';
+      const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL;VALUE=uri:tel:${phone}\nEMAIL:${email}\nEND:VCARD`;
+      const blob = new Blob([vcard], {type:'text/vcard'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = (name.replace(/\s+/g,'_')||'contact') + '.vcf';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      shareMsg.textContent = 'File kontak (.vcf) diunduh.';
+      setTimeout(()=>shareMsg.textContent='',2200);
+    });
+
+    let dark = false;
+    themeBtn.addEventListener('click', ()=>{
+      dark = !dark;
+      if(dark){
+        document.documentElement.style.setProperty('--bg','linear-gradient(180deg,#0f1224,#0b1a33)');
+        document.documentElement.style.setProperty('--card','rgba(12,10,20,0.86)');
+        document.documentElement.style.setProperty('--muted','#9aa0b2');
+        document.documentElement.style.setProperty('--accent1','#6e4cff');
+        document.documentElement.style.setProperty('--accent2','#ff7cc7');
+        document.body.style.color = '#ebecf5';
+      }else{
+        document.documentElement.style.setProperty('--bg','linear-gradient(180deg,#fff 0%, #fff 40%, #f7eef9 100%)');
+        document.documentElement.style.setProperty('--card','rgba(255,255,255,0.85)');
+        document.documentElement.style.setProperty('--muted','#6b6b7a');
+        document.documentElement.style.setProperty('--accent1','#d6bfff');
+        document.documentElement.style.setProperty('--accent2','#ffc1e3');
+        document.body.style.color = '#252032';
+      }
+    });
+
+    document.getElementById('name').addEventListener('dblclick', ()=>{
+      const cur = document.getElementById('name').textContent;
+      const val = prompt('Ganti nama:', cur);
+      if(val!=null) document.getElementById('name').textContent = val;
+    });
+    document.getElementById('bio').addEventListener('dblclick', ()=>{
+      const cur = document.getElementById('bio').textContent;
+      const val = prompt('Ganti bio:', cur);
+      if(val!=null) document.getElementById('bio').textContent = val;
+    });
+
+    window.addEventListener('beforeunload', ()=>{
+      const state = {
+        name: document.getElementById('name').textContent,
+        bio: document.getElementById('bio').textContent
+      };
+      localStorage.setItem('plp_state', JSON.stringify(state));
+    });
+    window.addEventListener('load', ()=>{
+      try{
+        const st = JSON.parse(localStorage.getItem('plp_state')) || {};
+        if(st.name) document.getElementById('name').textContent = st.name;
+        if(st.bio) document.getElementById('bio').textContent = st.bio;
+      }catch(e){}
+    });
+  </script>
+</body>
+</html>
